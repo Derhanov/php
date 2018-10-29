@@ -6,14 +6,9 @@ namespace App;
 
 class User {
 
-//	private $name;
-
-//	public function __construct($name) {
-//	$this->$name = $name;
-//	}
-//
-//	public function user() {
-//
-//	}
+	public $id;
+	public $name;
+	public $vehicle;
+	public $class;
 
 }

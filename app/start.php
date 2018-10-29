@@ -1,19 +1,27 @@
 <?php
-require_once __DIR__ .'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../data/database.php';
-//require_once __DIR__ . '/../src/CreateTable.php';
-//require_once __DIR__ . '/../src/Vehicle.php';
 
-use App\Vehicle;
+use App\User;
 use App\CreateTable;
 
+$users = [];
+foreach ( $database as $dataUser ) {
+	$user          = new User();
+	$user->id      = $dataUser['id'];
+	$user->class   = $dataUser['class'];
+	$user->name    = $dataUser['name'];
+	$user->vehicle = $dataUser['vehicle'];
+	$users[]       = $user;
+}
 
-$table = new CreateTable( $database );
-$order = 'class';
-$sortDatabase = $table->sortArr($database, $order);
+$table        = new CreateTable( $users );
+$par          = 'class';
+$par2         = 'id';
+$sortTableData = $table->multiSortArr( $users, $par, $par2 );
 
-if($sortDatabase) {
-	echo '<table class="table">;
+if ( $sortTableData ) {
+	echo '<table class="table">
 <thead>
     <tr>
       <th scope="col">#</th>
@@ -23,15 +31,15 @@ if($sortDatabase) {
     </tr>
   </thead>
   <tbody>';
-	foreach ( $sortDatabase as $data ) {
+	foreach ( $sortTableData as $user ) {
 		echo '<tr>';
-		echo '<td>' . $data['id'] . '</td>';
-		echo '<td>' . $data['class'] . '</td>';
-		echo '<td>' . $data['name'] . '</td>';
-		echo '<td>' . $data['vehicle'] . '</td>';
+		echo '<td>' . $user->id . '</td>';
+		echo '<td>' . $user->class . '</td>';
+		echo '<td>' . $user->name . '</td>';
+		echo '<td>' . $user->vehicle . '</td>';
 		echo '</tr>';
 	}
 	echo '</tbody >';
-    echo  '</table >';
+	echo '</table >';
 }
 

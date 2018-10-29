@@ -2,17 +2,15 @@
 
 namespace App;
 
-use App\CreateTable;
 
 class ResultTable extends CreateTable {
 
-	private $timeLap;
-	private $timeFail;
-
+	public $timeLap;
+	public $timeFail;
+	public $winner;
 
 	public function __construct($data) {
 		parent::__construct($data);
-		// random time
 	}
 
 	public function randomTimeLap() {
@@ -25,9 +23,9 @@ class ResultTable extends CreateTable {
 		return $this->timeFail;
 	}
 
-
-
-//penalty_1
-
+	public function winner($a, $b){
+		$this->winner = $a - $b ;
+		return $this->winner;
+	}
 
 }

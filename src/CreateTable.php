@@ -6,17 +6,13 @@ namespace App;
 
 class CreateTable {
 
-//	public function __construct($name, $class, $id ) {
-//		$this->name = $name;
-//		$this->class = $class;
-//		$this->id = $id;
-//	}
+	public $data;
 
 	public function __construct( $data ) {
 		$this->data = $data;
 	}
 
-	public function sortArr( $arr, $string ) {
+	public function multiSortArr( $arr, $par1, $par2  ) {
 		$sortArray = array();
 
 		foreach ( $arr as $item ) {
@@ -27,17 +23,14 @@ class CreateTable {
 				$sortArray[ $key ][] = $value;
 			}
 		}
-		$orderBy = $string;
-		array_multisort( $sortArray[ $orderBy ], SORT_ASC, $arr );
-
+		$orderBy = $par1;
+		$orderBy2 = $par2;
+		array_multisort(
+			$sortArray[ $orderBy ], SORT_ASC, $arr ,
+			$sortArray[ $orderBy2 ], SORT_ASC, $arr
+		);
 		return $arr;
 	}
 
-	public function startTable( $data ) {
-
-	}
 }
-
-;
-
 
