@@ -4,9 +4,10 @@ require_once __DIR__ . '/../data/database.php';
 
 use App\ResultTable;
 use App\User;
+use App\Service\SortArray;
 
 $users = [];
-$arr = [];
+$finalData   = [];
 foreach ( $database as $dataUser ) {
 	$user          = new User();
 	$user->id      = $dataUser['id'];
@@ -16,26 +17,35 @@ foreach ( $database as $dataUser ) {
 	$users[]       = $user;
 }
 
-$resultTable        = new ResultTable( $users );
-$par          = 'class';
-$par2         = 'id';
-$sortResultTable = $resultTable->multiSortArr( $users, $par, $par2 );
+$resultTable = new ResultTable();
 
-//$arr = [];
-//$i = 0;
+foreach ( $users as $userData ) {
+	$lap     = $resultTable->randomTimeLap();
+	$penalty = $resultTable->randomTimePenalty();
+	$win     = $resultTable->winner( $lap, $penalty );
+	$userData->id;
+	$userData->class;
+	$userData->name;
+	$userData->timeLap  = $lap;
+	$userData->timeFail = $penalty;
+	$userData->timeLap  = $lap;
+	$userData->timeFail = $penalty;
+	$userData->vehicle;
+	$userData->winner = $win;
+
+	$finalData[] = $userData;
+}
+
+$sortData = new SortArray();
+$par         = 'class';
+$par2        = 'winner';
+$sortResultTable = $sortData->multiSortArr( $finalData, $par, $par2 );
 
 if ( $sortResultTable ) {
+	//Нужно вынести в класс а переменные сделать методами $lap, $penalty, $win
 	echo '<table class="table">';
 	echo '<thead>';
 	echo '<tr>';
-//	foreach($sortResultData as $data ){
-//		foreach(array_keys($data) as $key){
-//			$i+=1;
-
-//			array_unique($arr);
-//			echo '<td>' . $key . '</td>';
-//		}
-//	}
 	echo '<th scope="col">#</th>';
 	echo '<th scope="col">class</th>';
 	echo '<th scope="col">name</th>';
@@ -46,24 +56,22 @@ if ( $sortResultTable ) {
 	echo '<th scope="col">vehicle</th>';
 	echo '<th scope="col">place</th>';
 	echo '</tr>';
-    echo '</thead>';
-    echo '<tbody>';
-  foreach ( $sortResultTable as $data ) {
-		$lap     = $resultTable->randomTimeLap();
-		$penalty = $resultTable->randomTimePenalty();
+	echo '</thead>';
+	echo '<tbody>';
+	foreach ( $sortResultTable as $data ) {
 		echo '<tr>';
 		echo '<td>' . $data->id . '</td>';
 		echo '<td>' . $data->class . '</td>';
-		echo '<td>' . $data->name. '</td>';
-		echo '<td>' . $data->timeLap = $lap . '</td>';
-		echo '<td>' . $data->timeFail = $penalty . '</td>';
-		echo '<td>' . $data->timeLap = $lap . '</td>';
-		echo '<td>' . $data->timeFail = $penalty . '</td>';
+		echo '<td>' . $data->name . '</td>';
+		echo '<td>' . $data->timeLap . '</td>';
+		echo '<td>' . $data->timeFail . '</td>';
+		echo '<td>' . $data->timeLap . '</td>';
+		echo '<td>' . $data->timeFail . '</td>';
 		echo '<td>' . $data->vehicle . '</td>';
+		echo '<td>' . $data->winner . '</td>';
 		echo '</tr>';
-//		$arr[]= $data;
 	}
-
 	echo '</tbody >';
 	echo '</table >';
 }
+

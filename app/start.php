@@ -4,6 +4,7 @@ require_once __DIR__ . '/../data/database.php';
 
 use App\User;
 use App\CreateTable;
+use App\Service\SortArray;
 
 $users = [];
 foreach ( $database as $dataUser ) {
@@ -15,31 +16,14 @@ foreach ( $database as $dataUser ) {
 	$users[]       = $user;
 }
 
-$table        = new CreateTable( $users );
-$par          = 'class';
-$par2         = 'id';
-$sortTableData = $table->multiSortArr( $users, $par, $par2 );
+$sortUsers     = new SortArray();
+$par           = 'class';
+$par2          = 'name';
+$sortTableData = $sortUsers->multiSortArr( $users, $par, $par2 );
 
 if ( $sortTableData ) {
-	echo '<table class="table">
-<thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">class</th>
-      <th scope="col">name</th>
-      <th scope="col">vehicle</th>
-    </tr>
-  </thead>
-  <tbody>';
-	foreach ( $sortTableData as $user ) {
-		echo '<tr>';
-		echo '<td>' . $user->id . '</td>';
-		echo '<td>' . $user->class . '</td>';
-		echo '<td>' . $user->name . '</td>';
-		echo '<td>' . $user->vehicle . '</td>';
-		echo '</tr>';
-	}
-	echo '</tbody >';
-	echo '</table >';
+	$table = new CreateTable();
+	$table->createTable( $sortTableData );
 }
+
 
